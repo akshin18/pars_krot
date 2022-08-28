@@ -86,7 +86,8 @@ def pdf_pars(cookie=None,user_agent=None,id=None):
         # worksheet.insert_row(my_sh,2)
         print("GOOD")
         worksheet.append_row(my_sh)
-    except:
+    except Exception as e:
+        print(e)
         print("Some error")
 
 
