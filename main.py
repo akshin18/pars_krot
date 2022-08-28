@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup as bs
 
 from cokkies import get_cokie_and_user_agent
 from sheet import worksheet
+from datetime import datetime
 cookie_m = None
 user_agent_m = None
 minus_word = 'Центр дистанционных торгов;Аукционный тендерный центр;Аукционы Сибири;Межрегиональная Электронная Торговая Система;Фабрикант;Альфалот;Уральская;электронная торговая площадка;Tender Technologies;Электронная площадка ЭСП;Профит;Вердиктъ;Сбербанк-АСТ;Центра реализации;Новые информационные сервисы;Российский аукционный дом;Электронная торговая площадка "Регион";Всероссийская Электронная;Торговая Площадка;Аукцион-центр;Региональная Торговая площадка;ELECTRO-TORGI.RU;ТП "Фабрикант";АО «Сбербанк-АСТ»;uTender;"Новые информационные сервисы";Вердиктъ;Всероссийская Электронная Торговая Площадка;RUSSIA OnLine;Электронная площадка Центра реализации;Систематорг;Сибирская торговая площадка;Уральская электронная торговая площадка;ПТП-Центр;ТендерСтандарт;Электронная торговая площадка "Профит";«Региональная Торговая площадка»;ПТП-Центр;АКОСТА info;Балтийская электронная площадка;ЭТП "ЮГРА";Электронная торговая площадка ELECTRO-TORGI.RU;Мета-инвест;Объединенная Торговая Площадка;"Арбитат";«RUSSIA OnLine»;"ПТП-Центр";Электронная площадка "Аукционный тендерный центр";«Электронная торговая площадка ELECTRO-TORGI.RU»;"Всероссийская Электронная Торговая Площадка";«Новые информационные сервисы»;«Электронная площадка «Вердиктъ»;ООО «Центр реализации»;"Ru-Trade24";ЭТП "Пром-Консалтинг";Электронная торговая площадка УТП Сбербанк-АСТ;Электронная торговая площадка "Евразийская торговая площадка";"Аукционы Сибири";"Сибирская торговая площадка";«Системы ЭЛектронных Торгов»;ЭТП "Пром-Консалтинг";МЕТА-ИНВЕСТ;ООО «Специализированная организация по проведению торгов – Южная Электронная Торговая Площадка»;«ТЕНДЕР ГАРАНТ»;"Сибирская торговая площадка";B2B-Center;"Открытая торговая площадка";«Property Trade»;ЭТП "МЕЖРЕГИОНАЛЬНАЯ ЭЛЕКТРОННАЯ ТОРГОВАЯ СИСТЕМА";Электронная площадка "Система Электронных Торгов Имуществом" (СЭЛТИМ);ТП "Фабрикант" (www.fabrikant.ru);"Открытая торговая площадка";B2B-Center'
@@ -91,7 +92,7 @@ def pdf_pars(cookie=None,user_agent=None,id=None):
         print("Some error")
 
 
-def main(page=1,last_page=0):
+def main(page=1,last_page=0,txt="",date_s="",date_e=""):
     global cookie_m,user_agent_m
     print(page,last_page)
     links_in_sheet = worksheet.col_values(1)
@@ -99,8 +100,7 @@ def main(page=1,last_page=0):
     if int(page) > int(last_page) and int(last_page) != 0: return
     while True:
         try:
-            # r = requests.get(f"https://tbankrot.ru/reestr?page={page}&type=mess&text=%D0%BF%D1%80%D0%BE%D0%B4%D0%B0%D0%B6+&debtor=&dt_1=20.08.2022&dt_2=20.08.2022&t%5B%5D=2&t%5B%5D=7",timeout=5)
-            r = requests.get(f"https://tbankrot.ru/reestr?page={page}&type=mess&text=%D0%BF%D1%80%D1%8F%D0%BC&debtor=&dt_1=20.08.2022&dt_2=20.08.2022&t%5B%5D=2&t%5B%5D=7",timeout=5)
+            r = requests.get(f"https://tbankrot.ru/reestr?page={page}&type=mess&text={txt}&debtor=&dt_1={date_s}&dt_2={date_e}&t%5B%5D=2&t%5B%5D=7",timeout=5)
             break
         except:
             print("PASS REQUEST")
@@ -113,14 +113,15 @@ def main(page=1,last_page=0):
         link = elem["data-rel"].split("=")[1]
         full_link = "https://old.bankrot.fedresurs.ru/MessageWindow.aspx?ID=" + link
         if full_link not in links_in_sheet:
-            # print("GO",link)
             pdf_pars(id=link,cookie=cookie_m,user_agent=user_agent_m)
-    return main(page =page+1,last_page=last_page)
+    return main(page =page+1,last_page=last_page,txt=txt,date_s=date_s,date_e=date_e)
 
 
 if __name__ == "__main__":
-    main()
-
-
+    dan = [r"%D0%BF%D1%80%D1%8F%D0%BC",r"%D0%BF%D1%80%D0%BE%D0%B4%D0%B0%D0%B6+"]
+    date_s = "01.08.2022" 
+    date_e = datetime.now().strftime("%d.%m.%Y") 
+    for elem in dan:
+        main(txt=elem,date_s=date_s,date_e=date_e)
 
 
