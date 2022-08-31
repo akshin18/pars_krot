@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from time import sleep
 import requests
 from bs4 import BeautifulSoup as bs
 
@@ -118,10 +119,11 @@ def main(page=1,last_page=0,txt="",date_s="",date_e=""):
 
 
 if __name__ == "__main__":
-    dan = [r"%D0%BF%D1%80%D1%8F%D0%BC",r"%D0%BF%D1%80%D0%BE%D0%B4%D0%B0%D0%B6+"]
-    date_s = "01.08.2022" 
-    date_e = datetime.now().strftime("%d.%m.%Y") 
-    for elem in dan:
-        main(txt=elem,date_s=date_s,date_e=date_e)
-
+    while True:
+        dan = [r"%D0%BF%D1%80%D1%8F%D0%BC",r"%D0%BF%D1%80%D0%BE%D0%B4%D0%B0%D0%B6+"]
+        date_s = "01.08.2022" 
+        date_e = datetime.now().strftime("%d.%m.%Y") 
+        for elem in dan:
+            main(txt=elem,date_s=date_s,date_e=date_e)
+        sleep(60*5)
 
