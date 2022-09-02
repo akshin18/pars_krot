@@ -106,6 +106,7 @@ def main(page=1,last_page=0,txt="",date_s="",date_e=""):
         except:
             print("PASS REQUEST")
             pass
+    sleep(5)
     soup = bs(r.content,"lxml")
     table = soup.find("table",class_="base").find_all("td",class_="show_message_window")
     if  last_page == 0:
