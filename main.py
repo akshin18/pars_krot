@@ -102,6 +102,7 @@ def main(page=1,last_page=0,txt="",date_s="",date_e=""):
     while True:
         try:
             r = get_pages(page,txt,date_s,date_e)
+            print(r)
             # r = requests.get(f"https://tbankrot.ru/reestr?page={page}&type=mess&text={txt}&debtor=&dt_1={date_s}&dt_2={date_e}&t%5B%5D=2&t%5B%5D=7",timeout=5)
             break
         except:
