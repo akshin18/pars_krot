@@ -3,7 +3,7 @@ from time import sleep
 import requests
 from bs4 import BeautifulSoup as bs
 
-from cokkies import get_cokie_and_user_agent
+from cokkies import get_cokie_and_user_agent, get_pages
 from sheet import worksheet
 from datetime import datetime
 cookie_m = None
@@ -101,7 +101,8 @@ def main(page=1,last_page=0,txt="",date_s="",date_e=""):
     if int(page) > int(last_page) and int(last_page) != 0: return
     while True:
         try:
-            r = requests.get(f"https://tbankrot.ru/reestr?page={page}&type=mess&text={txt}&debtor=&dt_1={date_s}&dt_2={date_e}&t%5B%5D=2&t%5B%5D=7",timeout=5)
+            r = get_pages(page,txt,date_s,date_e)
+            # r = requests.get(f"https://tbankrot.ru/reestr?page={page}&type=mess&text={txt}&debtor=&dt_1={date_s}&dt_2={date_e}&t%5B%5D=2&t%5B%5D=7",timeout=5)
             break
         except:
             print("PASS REQUEST")
