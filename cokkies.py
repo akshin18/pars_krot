@@ -14,6 +14,7 @@ def get_cokie_and_user_agent(id):
     chrome_options.add_argument("--disable-gpu")
     chrome_options.add_argument(
     "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36")
+    # driver = webdriver.Chrome(chrome_options=chrome_options)
     driver = webdriver.Chrome(ChromeDriverManager().install(),chrome_options=chrome_options)
     driver.get('https://old.bankrot.fedresurs.ru/MessageWindow.aspx?ID=BB0097A2C31157D8B2440115D38BB101')
     cookies = driver.get_cookie("bankrotcookie")["value"]
@@ -37,5 +38,7 @@ def get_pages(page,txt,date_s,date_e):
     # driver = webdriver.Chrome(chrome_options=chrome_options)
     driver = webdriver.Chrome(ChromeDriverManager().install(),chrome_options=chrome_options)
     driver.get(f"https://tbankrot.ru/reestr?page={page}&type=mess&text={txt}&debtor=&dt_1={date_s}&dt_2={date_e}&t%5B%5D=2&t%5B%5D=7")
-    return driver.page_source.encode("utf-8")
+    res = driver.page_source.encode("utf-8")
+    driver.close()
+    return res
 
