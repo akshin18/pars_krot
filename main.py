@@ -97,13 +97,7 @@ def main(page=1,last_page=0,txt="",date_s="",date_e=""):
     global cookie_m,user_agent_m
     print(page,last_page)
     links_in_sheet = worksheet.col_values(1)
-    headers = {
-                'user-agent': 'Mozilla/5.`0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.5112.102 Safari/537.36 OPR/90.0.4480.80',
-            }
-    proxies = {
-    "http":"http://evKaNa:efreB6PyfaCa@fproxy.site:10268",
-    "https":"http://evKaNa:efreB6PyfaCa@fproxy.site:10268"
-}
+  
 
     if int(page) > int(last_page) and int(last_page) != 0: return
     while True:
@@ -111,9 +105,8 @@ def main(page=1,last_page=0,txt="",date_s="",date_e=""):
             # r = get_pages(page,txt,date_s,date_e)
 
 
-            r = requests.get(f"https://tbankrot.ru/reestr?page={page}&type=mess&text={txt}&debtor=&dt_1={date_s}&dt_2={date_e}&t%5B%5D=2&t%5B%5D=7",proxies=proxies,timeout=15)
+            r = requests.get(f"https://tbankrot.ru/reestr?page={page}&type=mess&text={txt}&debtor=&dt_1={date_s}&dt_2={date_e}&t%5B%5D=2&t%5B%5D=7",timeout=15)
             print(r)
-            r_none = requests.get("https://mobileproxy.space/reload.html?proxy_key=91a795a171aa6be4fadd949b183b7a4f&format=json",headers=headers)
             break
         except Exception as e:
             print("PASS REQUEST")
@@ -128,14 +121,16 @@ def main(page=1,last_page=0,txt="",date_s="",date_e=""):
         full_link = "https://old.bankrot.fedresurs.ru/MessageWindow.aspx?ID=" + link
         if full_link not in links_in_sheet:
             pdf_pars(id=link,cookie=cookie_m,user_agent=user_agent_m)
+    sleep(60)
     return main(page =page+1,last_page=last_page,txt=txt,date_s=date_s,date_e=date_e)
 
 
 if __name__ == "__main__":
     while True:
         dan = [r"%D0%BF%D1%80%D1%8F%D0%BC",r"%D0%BF%D1%80%D0%BE%D0%B4%D0%B0%D0%B6+"]
-        date_s = "01.08.2022" 
-        date_e = datetime.now().strftime("%d.%m.%Y") 
+        date_s = "04.09.2022" 
+        date_e = ""
+        # date_e = datetime.now().strftime("%d.%m.%Y") 
         for elem in dan:
             main(txt=elem,date_s=date_s,date_e=date_e)
         sleep(60*5)
