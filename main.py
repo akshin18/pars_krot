@@ -97,13 +97,23 @@ def main(page=1,last_page=0,txt="",date_s="",date_e=""):
     global cookie_m,user_agent_m
     print(page,last_page)
     links_in_sheet = worksheet.col_values(1)
+    headers = {
+                'user-agent': 'Mozilla/5.`0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.5112.102 Safari/537.36 OPR/90.0.4480.80',
+            }
+    proxies = {
+    "http":"http://evKaNa:efreB6PyfaCa@fproxy.site:10268",
+    "https":"https://evKaNa:efreB6PyfaCa@fproxy.site:10268"
+}
 
     if int(page) > int(last_page) and int(last_page) != 0: return
     while True:
         try:
-            r = get_pages(page,txt,date_s,date_e)
+            # r = get_pages(page,txt,date_s,date_e)
+
+
+            r = requests.get(f"https://tbankrot.ru/reestr?page={page}&type=mess&text={txt}&debtor=&dt_1={date_s}&dt_2={date_e}&t%5B%5D=2&t%5B%5D=7",proxies=proxies,timeout=5)
             print(r)
-            # r = requests.get(f"https://tbankrot.ru/reestr?page={page}&type=mess&text={txt}&debtor=&dt_1={date_s}&dt_2={date_e}&t%5B%5D=2&t%5B%5D=7",timeout=5)
+            r_none = requests.get("https://mobileproxy.space/reload.html?proxy_key=91a795a171aa6be4fadd949b183b7a4f&format=json",headers=headers)
             break
         except:
             print("PASS REQUEST")
