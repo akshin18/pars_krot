@@ -102,7 +102,7 @@ def main(page=1,last_page=0,txt="",date_s="",date_e=""):
             }
     proxies = {
     "http":"http://evKaNa:efreB6PyfaCa@fproxy.site:10268",
-    "https":"https://evKaNa:efreB6PyfaCa@fproxy.site:10268"
+    "https":"http://evKaNa:efreB6PyfaCa@fproxy.site:10268"
 }
 
     if int(page) > int(last_page) and int(last_page) != 0: return
@@ -111,15 +111,16 @@ def main(page=1,last_page=0,txt="",date_s="",date_e=""):
             # r = get_pages(page,txt,date_s,date_e)
 
 
-            r = requests.get(f"https://tbankrot.ru/reestr?page={page}&type=mess&text={txt}&debtor=&dt_1={date_s}&dt_2={date_e}&t%5B%5D=2&t%5B%5D=7",proxies=proxies,timeout=5)
+            r = requests.get(f"https://tbankrot.ru/reestr?page={page}&type=mess&text={txt}&debtor=&dt_1={date_s}&dt_2={date_e}&t%5B%5D=2&t%5B%5D=7",proxies=proxies,timeout=15)
             print(r)
             r_none = requests.get("https://mobileproxy.space/reload.html?proxy_key=91a795a171aa6be4fadd949b183b7a4f&format=json",headers=headers)
             break
-        except:
+        except Exception as e:
             print("PASS REQUEST")
+            print(e)
             pass
     sleep(5)
-    soup = bs(r,"lxml")
+    soup = bs(r.content,"lxml")
     table = soup.find("table",class_="base").find_all("td",class_="show_message_window")
     if  last_page == 0:
         last_page = int(soup.find("ul",class_="pagination").find_all("li")[-1].text)
